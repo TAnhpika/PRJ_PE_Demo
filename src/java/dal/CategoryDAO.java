@@ -15,16 +15,29 @@ public class CategoryDAO extends DBContext {
             PreparedStatement ps = c.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Category c = new Category(
+                Category cat = new Category(
                         rs.getInt("CategoryID"),
                         rs.getString("CategoryName"),
                         rs.getString("Description")
                 );
-                list.add(c);
+                list.add(cat);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public int addCategory(Category cat) {
+        String sql = "INSERT INTO Category (CategoryName, Description) VALUES (?, ?)";
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, cat.getCategoryName());
+            ps.setString(2, cat.getDescription());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

@@ -32,6 +32,17 @@ public class CategoryControllerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Handle add category logic here later
+        String service = request.getParameter("service");
+
+        if ("add".equals(service)) {
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+
+            Category cat = new Category(name, description);
+            CategoryDAO dao = new CategoryDAO();
+            dao.addCategory(cat);
+
+            response.sendRedirect("category?service=list");
+        }
     }
 }
