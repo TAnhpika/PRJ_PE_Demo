@@ -8,8 +8,24 @@ package dal;
  *
  * @author Anhpika
  */
-public class ProductDAO {
+import model.Product;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-    private final String GET_ALL_PRODUCT = "SELECT * FROM Product";
+public class ProductDAO extends DBContext {
 
+    public int addProduct(Product p) {
+        String sql = "INSERT INTO Product (ProductName, Unit, Price, CategoryID) VALUES (?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, p.getProductName());
+            ps.setString(2, p.getUnit());
+            ps.setDouble(3, p.getPrice());
+            ps.setInt(4, p.getCategoryID());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

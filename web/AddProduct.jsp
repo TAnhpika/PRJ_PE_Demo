@@ -15,7 +15,9 @@ Author        : Anhpika
     </head>
     <body>
         <h1>Add Product!</h1>
-        <form action="add">
+        <form action="product" method="post">
+            <!-- Sử dụng hidden input để gửi tham số service -->
+            <input type="hidden" name="service" value="add" />
             Product name: <input type="text" name="name" value="" required/> <br><br>
             Unit:  <input type="text" name="unit" value="" required/><br><br>
             Category: <select name="category">
