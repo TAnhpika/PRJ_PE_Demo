@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dal;
 
-/**
- *
- * @author Anhpika
- */
 import model.Product;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +41,55 @@ public class ProductDAO extends DBContext {
             ps.setString(2, p.getUnit());
             ps.setDouble(3, p.getPrice());
             ps.setInt(4, p.getCategoryID());
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int deleteProduct(int pid) {
+        String sql = "DELETE FROM Product WHERE ProductID = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, pid);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public Product getProductByID(int pid) {
+        String sql = "SELECT * FROM Product WHERE ProductID = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setInt(1, pid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Product(
+                        rs.getInt("ProductID"),
+                        rs.getString("ProductName"),
+                        rs.getString("Unit"),
+                        rs.getDouble("Price"),
+                        rs.getInt("CategoryID")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int updateProduct(Product p) {
+        String sql = "UPDATE Product SET ProductName = ?, Unit = ?, Price = ?, CategoryID = ? WHERE ProductID = ?";
+        try {
+            PreparedStatement ps = c.prepareStatement(sql);
+            ps.setString(1, p.getProductName());
+            ps.setString(2, p.getUnit());
+            ps.setDouble(3, p.getPrice());
+            ps.setInt(4, p.getCategoryID());
+            ps.setInt(5, p.getProductID());
             return ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -31,9 +31,37 @@ public class ProductControllerServlet extends HttpServlet {
             case "list":
                 listProduct(request, response);
                 break;
+            case "remove":
+                removeProduct(request, response);
+                break;
+            case "edit":
+                loadEditPage(request, response);
+                break;
             default:
                 break;
         }
+    }
+
+    private void removeProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        ProductDAO pDao = new ProductDAO();
+        pDao.deleteProduct(id);
+        response.sendRedirect("product?service=list");
+    }
+
+    private void loadEditPage(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        ProductDAO pDao = new ProductDAO();
+        CategoryDAO cDao = new CategoryDAO();
+
+        Product p = pDao.getProductByID(id);
+        List<Category> listC = cDao.getAllCategories();
+
+        request.setAttribute("p", p);
+        request.setAttribute("listC", listC);
+        request.getRequestDispatcher("EditProduct.jsp").forward(request, response);
     }
 
     private void listProduct(HttpServletRequest request, HttpServletResponse response)
@@ -66,6 +94,17 @@ public class ProductControllerServlet extends HttpServlet {
             Product p = new Product(name, unit, price, categoryId);
             ProductDAO pDao = new ProductDAO();
             pDao.addProduct(p);
+            response.sendRedirect("product?service=list");
+        } else if ("edit".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String unit = request.getParameter("unit");
+            double price = Double.parseDouble(request.getParameter("price"));
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+
+            Product p = new Product(id, name, unit, price, categoryId);
+            ProductDAO pDao = new ProductDAO();
+            pDao.updateProduct(p);
             response.sendRedirect("product?service=list");
         }
     }
