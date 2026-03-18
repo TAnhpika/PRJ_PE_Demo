@@ -26,7 +26,7 @@ Author        : Anhpika
                 </c:forEach>
             </select><br><br>
             Price: <input type="number" name="price" value="" required/> <br><br>
-            <input type="submit" value="Add" /> <a href="ListProduct.jsp"><input type="button" value="Return to Product List" /></a>
+            <input type="submit" value="Add" /> <a href="product?service=list"><input type="button" value="Return to Product List" /></a>
         </form>
     </body>
 </html>

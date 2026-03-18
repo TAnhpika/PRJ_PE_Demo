@@ -29,11 +29,19 @@ public class ProductControllerServlet extends HttpServlet {
                 loadAddPage(request, response);
                 break;
             case "list":
-                // Handle list logic here
+                listProduct(request, response);
                 break;
             default:
                 break;
         }
+    }
+
+    private void listProduct(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        ProductDAO pDao = new ProductDAO();
+        List<Product> listP = pDao.getAllProduct();
+        request.setAttribute("listP", listP);
+        request.getRequestDispatcher("ListProduct.jsp").forward(request, response);
     }
 
     private void loadAddPage(HttpServletRequest request, HttpServletResponse response)
@@ -58,7 +66,7 @@ public class ProductControllerServlet extends HttpServlet {
             Product p = new Product(name, unit, price, categoryId);
             ProductDAO pDao = new ProductDAO();
             pDao.addProduct(p);
-            response.sendRedirect("product?service=loadAdd");
+            response.sendRedirect("product?service=list");
         }
     }
 }

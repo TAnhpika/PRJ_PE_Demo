@@ -6,8 +6,26 @@ public class Product {
     private String unit;
     private double price;
     private int categoryID;
+    private String categoryName;
 
     public Product() {
+    }
+
+    public Product(int productID, String productName, String unit, double price, int categoryID, String categoryName) {
+        this.productID = productID;
+        this.productName = productName;
+        this.unit = unit;
+        this.price = price;
+        this.categoryID = categoryID;
+        this.categoryName = categoryName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public Product(int productID, String productName, String unit, double price, int categoryID) {
