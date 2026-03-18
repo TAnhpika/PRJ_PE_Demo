@@ -51,6 +51,6 @@
         
         <br>
         <a href="product?service=loadAdd"><button>Add Product</button></a>
-        <a href="ListCategory.jsp"><button>List Category</button></a>
+        <a href="category?service=list"><button>List Category</button></a>
     </body>
 </html>
